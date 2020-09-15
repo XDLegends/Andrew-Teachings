@@ -1,9 +1,32 @@
 <!DOCTYPE html>
 <html>
+<head>
+  <title>First Web Page</title>
+  <script>
+  function checkGuess(){
+    document.getElementById("guess").value;
+  }
+  function Guess(){
+     alert('You have infinite guesses.');
+
+    var answer = Math.round(Math.random()*100);
+    var guess = "";
+
+    while (guess != answer){
+          guess = prompt("what is you guess?");
+          if(guess > answer)
+          msg = "Your guess is too high";
+          else if (guess < answer)
+          msg = "Your guess is too low";
+          else
+          msg = "You Win";
+          alert(msg);
+    }
+  }
+
+  </script>
+</head>
   <body>
-     <h1> My First Heading</h1>
-
-     <p>My first Paragraph.</p>
-
+     <Button onclick="Guess()">Guessing Game
   </body>
 </html>
