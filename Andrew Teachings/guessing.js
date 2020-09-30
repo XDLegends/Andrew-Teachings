@@ -1,18 +1,22 @@
-alert('You have infinite guesses.');
-
-var answer = Math.floor(Math.random()*100);
+var answer = Math.round(Math.random()*100);
 var guess = "";
+    while (guess !== answer) {
+        guess = prompt("what is you guess?");
+        guess = parseInt(guess);
+        console.log(guess);
 
-while (guess != answer){
-      guess = prompt("what is you guess?");
-      if(guess > answer)
-      msg = "Your guess is too high";
+      if(isNaN(guess))
+      msg = "Your guess is not a number!!!"
+      else if(guess > answer)
+      msg = "Your guess is should be lower";
       else if (guess < answer)
-      msg = "Your guess is too low";
+      msg = "Your guess is should be higher";
       else
       msg = "You Win";
       alert(msg);
-}
+  }
+      // while (guess != answer){
+// }
 
 
 
