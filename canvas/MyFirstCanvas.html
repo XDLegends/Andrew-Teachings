@@ -1,5 +1,6 @@
 <html>
 <head>
+</head>
 <body>
   <h1> Adnane Drawing Program </h1>
   <canvas id="imgCanvas"width="900" height="700" onclick="draw(event)"
@@ -13,7 +14,6 @@
     var color = "#" + r.toString(16) + g.toString(16) + b.toString(16);
     return color;
 }
-
   function draw(e){
     var canvas = document.getElementById("imgCanvas");
     var ctx = canvas.getContext("2d");
@@ -22,10 +22,9 @@
     var posy = e.clientY - rect.top;
     ctx.fillStyle = randomColor() + "33";
     ctx.beginPath();
-    ctx.arc(posx,posy,50,10,Math.PI*2);
+    ctx.arc(posx,posy,50,0,Math.PI*2);
     ctx.fill();
   }
    </script>
-   </head>
  </body>
 </html>
