@@ -2,7 +2,7 @@
 <head>
 <body>
   <h1> Adnane Drawing Program </h1>
-  <canvas id="imgCanvas"width="600" height="400" onclick="draw(event)"
+  <canvas id="imgCanvas"width="900" height="700" onclick="draw(event)"
    onmousemove = "draw(event)">
   </canvas>
   <script>
@@ -15,7 +15,7 @@
 }
 
   function draw(e){
-    var canvas = doucument.getElementById("imgCanvas");
+    var canvas = document.getElementById("imgCanvas");
     var ctx = canvas.getContext("2d");
     var rect = canvas.getBoundingClientRect();
     var posx = e.clientX - rect.left;
