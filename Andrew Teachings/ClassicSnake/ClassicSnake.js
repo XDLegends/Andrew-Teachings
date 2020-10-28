@@ -75,16 +75,16 @@ Block.prototype.equal = function (otherBlock) {
 var Snake = function () {
   this.segments = [
       new Block(7,5),
-      new Block(6,5),
-      new Block(5,5),
-      new Block(4,5),
-      new Block(3,5),
-      new Block(2,5),
-      new Block(1,5),
-      new Block(0,5),
+      // new Block(,5)
+      // new Block(6,5),
+      // new Block(5,5),
+      // new Block(4,5),
+      // new Block(3,5),
+      // new Block(2,5),
+      // new Block(1,5),
+      // new Block(0,5),
 
     ];
-    console.log(Block);
 
     this.direction = "right";
     this.nextDirection = "right";
@@ -94,7 +94,6 @@ var Snake = function () {
 Snake.prototype.draw = function() {
   for(var i = 0; i < this.segments.length; i++){  //8 segment
     this.segments[i].drawSquare("black");
-
   }
 }
 
@@ -104,29 +103,21 @@ Snake.prototype.move = function() {
     var head = this.segments[0];
 
     this.direction = this.nextDirection;
-
-    if(this.direction === "right"){
+ //  ["0,0", "0,1",   ]
+    if(this.direction === "right"){      //GO RIGHT
       newHead = new Block(head.col + 1, head.row);
+
     }else if(this.direction === "left"){ //left
-      newHead = new Block(head.col -1, head.row);
+      newHead = new Block(head.col - 1, head.row);
+
     }else if(this.direction === "up"){ //up
-      newHead = new Block(head.row + 1, head.col);
+      newHead = new Block(head.row - 1, head.col);
+
     }else if(this.direction === "down"){ //down
-      newHead = new Block(head.row -1, head.col);
+      newHead = new Block(head.row + 1, head.col);
     }
-}
-
-
-var snake = new Snake();
-var interval = setInterval(function(){
-    ctx.clearRect(0,0, width, height);
-    drawBorder();
-    drawScore();
-    snake.draw();
-    snake.move();
-
-  },100);
-
+    this.segments.unshift(newHead);
+};
 
 var directions = {
     37: "left",
@@ -153,3 +144,13 @@ Snake.prototype.setDirection = function (newDirection) {
     }
     this.nextDirection = newDirection;
 };
+
+var snake = new Snake();
+
+var interval = setInterval(function(){
+    ctx.clearRect(0,0, width, height);
+    drawBorder();
+    drawScore();
+    snake.draw();
+    snake.move();
+  },1);
