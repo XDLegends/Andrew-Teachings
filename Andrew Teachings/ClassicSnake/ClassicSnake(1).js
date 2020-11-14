@@ -1,21 +1,21 @@
 //Canvas stuff
 var canvas = document.getElementById("imgCanvas");
 var ctx = canvas.getContext("2d");
-var width = canvas.width
-var height = canvas.height
+var width = canvas.width;
+var height = canvas.height;
 var blockSize = 10;
+var gokuSize = 50;
 var widthInBlocks = width / blockSize;
 var heightInBlocks = height / blockSize;
 var score = 0;
 
-//border width="1500" height="1000
-// var drawBorder = function(){
-//  ctx.fillStyle = "Red";
-//  ctx.fillRect(0, 0, width, blockSize); //x
-//  ctx.fillRect(0, height - blockSize, width, blockSize);
-//  ctx.fillRect(0, 0, blockSize, height);  //y
-//  ctx.fillRect(width - blockSize, 0, blockSize, height);
-// };
+var drawBorder = function(){
+ ctx.fillStyle = "Red";
+ ctx.fillRect(0, 0, width, blockSize);
+ ctx.fillRect(0, height - blockSize, width, blockSize);
+ ctx.fillRect(0, 0, blockSize, height);
+ ctx.fillRect(width - blockSize, 0, blockSize, height);
+};
 //Making the Score and setting it to 0
 var drawScore = function(){
   ctx.font = "20px Courier";
@@ -34,14 +34,11 @@ clearInterval(intervalId);
     ctx.fillText("Game Over", width / 2, height / 2);
 };
 
-  //Update every frame (interval)... in ..Seconds
-
 //Block constructor - created col and row Object
-var Block = function(col, row){
-  this.col = col;
+var Block = function(row, col){
   this.row = row;
+  this.col = col;
 }
-const gokuSize = 50;
 // drawing a Square
 Block.prototype.drawSquare = function (color) {
     var x = this.col * blockSize;
@@ -49,25 +46,23 @@ Block.prototype.drawSquare = function (color) {
     ctx.fillStyle = color;
     ctx.fillRect(x, y, blockSize, blockSize);
   };
-
-
-Block.prototype.drawGoku = function () {
-  var x = this.col * blockSize + blockSize/2 - gokuSize/2;
-  var y = this.row * blockSize + blockSize/2 - gokuSize/2;
-  var goku = document.getElementById("Goku");
-  ctx.drawImage(goku,x,y,gokuSize,gokuSize);
-};
-
 //circle variable
 var circle = function(x,y,radius,fillCircle){
     ctx.beginPath();
     ctx.arc(x, y, radius, 0, Math.PI * 2, false);
-if (fillCircle) {
+    if (fillCircle) {
     ctx.fill();
-} else {
+    } else {
     ctx.stroke();
   }
 };
+//draw goku
+// Block.prototype.drawGoku = function(){
+//    var x = this.col * blockSize;
+//    var y = this.row * blockSize;
+//    var img = document.getElementById("Goku");
+//    ctx.drawImage(img,x,y,gokuSize,gokuSize);  //context.drawImage(img,x,y,width,height)
+// }
 
 // drawing a Circle
 Block.prototype.drawCircle = function (color){
@@ -76,7 +71,8 @@ Block.prototype.drawCircle = function (color){
   ctx.fillStyle = color;
   circle(centerX, centerY, blockSize / 2, true);
 }
-
+// var sampleCircle = new Block (4,3);
+// sampleCircle.drawCircle("blue");
 
 //Equal Method, when snake = food location
 Block.prototype.equal = function (otherBlock) {
@@ -86,37 +82,18 @@ Block.prototype.equal = function (otherBlock) {
 var Snake = function () {
   this.segments = [
       new Block(7,5),
+      new Block(6,5),
+      new Block(5,5),
     ];
 
     this.direction = "right";
     this.nextDirection = "right";
 };
 
-//Food constructor
-var Food = function(){
-  this.position = new Block(10,10);
-};
-//Draw a circle at food's location
-Food.prototype.draw = function(){
-  this.position.drawCircle("LimeGreen");
-}
-//Move the food to a new random location
-Food.prototype.move = function() {
-  var randomRow = Math.floor(Math.random() * (widthInBlocks -2)) +1;
-  var randomCol = Math.floor(Math.random() * (heightInBlocks -2)) +1;
-  this.position = new Block(randomRow, randomCol);
-}
-var food = new Food();
 
 Snake.prototype.draw = function() {
-  for(var i = 0; i < this.segments.length; i++){
-    //goku head
-    if (i === 0){  //head = index 0 then draw goku
-      this.segments[i].drawGoku();
-    }
-    else {
-      this.segments[i].drawSquare("black");
-    }
+  for(var i = 0; i < this.segments.length; i++){  //8 segment
+    this.segments[i].drawSquare("black");
   }
 }
 
@@ -124,33 +101,18 @@ Snake.prototype.draw = function() {
 Snake.prototype.move = function() {
     var newHead;
     var head = this.segments[0];
-
     this.direction = this.nextDirection;
+ //  ["0,0", "0,1",   ]
     if(this.direction === "right"){      //GO RIGHT
-      newHead = new Block(head.col + 1, head.row);
-
+      newHead = new Block(head.row, head.col + 1);
     }else if(this.direction === "left"){ //left
-      newHead = new Block(head.col - 1, head.row);
-
+      newHead = new Block(head.row, head.col - 1);
     }else if(this.direction === "up"){ //up
-      newHead = new Block(head.col, head.row - 1);
-
+      newHead = new Block(head.row - 1, head.col);
     }else if(this.direction === "down"){ //down
-      newHead = new Block(head.col, head.row + 1);
-    }
-    //if statement checkCollision (using checkCollision function
-    if(this.checkCollision(newHead)){
-      gameOver();
-      console.log("hit!");
-      return;
+      newHead = new Block(head.row + 1, head.col);
     }
     this.segments.unshift(newHead);
-    if(newHead.equal(food.position)) {
-       score++;
-       food.move();
-       } else {
-       this.segments.pop();
-     }
 };
 
 var directions = {
@@ -160,13 +122,14 @@ var directions = {
     40: "down",
 };
 // The keydown handler for handling direction key presses
-$("body").keydown(function (event) {
+$("body").keydown(function(event) {
     var newDirection = directions[event.keyCode];
     if (newDirection !== undefined) {
          snake.setDirection(newDirection);
     }
 });
 Snake.prototype.setDirection = function (newDirection) {
+   // check if opposite direction, if true return (meaning skip)
     if (this.direction === "up" && newDirection === "down") {
         return;
     } else if (this.direction === "right" && newDirection === "left") {
@@ -178,30 +141,26 @@ Snake.prototype.setDirection = function (newDirection) {
     }
     this.nextDirection = newDirection;
 };
-Snake.prototype.checkCollision = function(head){
-  var leftCollision = (head.col === 0);
-  var rightCollision = (head.row === widthInBlocks - 1);
-  var topCollision = (head.row === 0);
-  var bottomCollision = (head.col === heightInBlocks - 1);
 
-  var selfCollision = false;
-  var wallCollision = leftCollision || topCollision || rightCollision || bottomCollision;
-
-
-  for(i = 0; i < this.segments.length; i++){
-    if(head.equal(this.segments[i])) {
-        selfCollision = true;
-    }
-  }
-  return selfCollision || wallCollision;
+//FOOD
+var food = function () {
+    this.position = new Block(10, 10);
 };
+food.prototype.draw = function () {
+    this.position.drawCircle("LimeGreen");
+};
+food.prototype.move = function () {
+  var randomCol = Math.floor(Math.random() * (widthInBlocks));
+  var randomRow = Math.floor(Math.random() * (heightInBlocks));
+  this.position = new Block(randomCol, randomRow);
 
 var snake = new Snake();
-var intervalId = setInterval(function(){
+
+var interval = setInterval(function(){
     ctx.clearRect(0,0, width, height);
     drawBorder();
     drawScore();
     snake.draw();
     snake.move();
-    food.draw();
   },50);
+}

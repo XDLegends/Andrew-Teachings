@@ -1,27 +1,27 @@
 //Canvas stuff
-var canvas = document.getElementById("imgCanvas");
-var ctx = canvas.getContext("2d");
-var width = canvas.width
-var height = canvas.height
+var canvas2 = document.getElementById("canvas2");
+var ctx = canvas2.getContext("2d");
+var width2 = canvas.width
+var height2 = canvas.height
 var blockSize = 10;
-var widthInBlocks = width / blockSize;
-var heightInBlocks = height / blockSize;
-var score = 0;
+var widthInBlocks = width2 / blockSize;
+var heightInBlocks = height2 / blockSize;
+var score2 = 0;
 
 //border width="1500" height="1000
-// var drawBorder = function(){
-//  ctx.fillStyle = "Red";
-//  ctx.fillRect(0, 0, width, blockSize); //x
-//  ctx.fillRect(0, height - blockSize, width, blockSize);
-//  ctx.fillRect(0, 0, blockSize, height);  //y
-//  ctx.fillRect(width - blockSize, 0, blockSize, height);
-// };
+var drawBorder = function(){
+ ctx.fillStyle = "Blue";
+ ctx.fillRect(0, 0, width, blockSize); //x
+ ctx.fillRect(0, height - blockSize, width, blockSize);
+ ctx.fillRect(0, 0, blockSize, height);  //y
+ ctx.fillRect(width - blockSize, 0, blockSize, height);
+};
 //Making the Score and setting it to 0
-var drawScore = function(){
+var drawScore2 = function(){
   ctx.font = "20px Courier";
   ctx.fillStyle = "Black";
-  ctx.textAlign = "left";
-  ctx.textBaseline = "top";
+  ctx.textAlign = "right";
+  ctx.textBaseline = "bottom";
   ctx.fillText("Score: " + score, blockSize, blockSize);
 };
 // Making a GameOver Screen
@@ -41,7 +41,7 @@ var Block = function(col, row){
   this.col = col;
   this.row = row;
 }
-const gokuSize = 50;
+const vegetaSize = 50;
 // drawing a Square
 Block.prototype.drawSquare = function (color) {
     var x = this.col * blockSize;
@@ -51,11 +51,11 @@ Block.prototype.drawSquare = function (color) {
   };
 
 
-Block.prototype.drawGoku = function () {
-  var x = this.col * blockSize + blockSize/2 - gokuSize/2;
-  var y = this.row * blockSize + blockSize/2 - gokuSize/2;
-  var goku = document.getElementById("Goku");
-  ctx.drawImage(goku,x,y,gokuSize,gokuSize);
+Block.prototype.drawVegeta = function () {
+  var x = this.col * blockSize + blockSize/2 - vegetaSize/2;
+  var y = this.row * blockSize + blockSize/2 - vegetaSize/2;
+  var vegeta = document.getElementById("Vegeta");
+  ctx.drawImage(vegeta,x,y,vegetaSize,vegetaSize);
 };
 
 //circle variable
@@ -85,34 +85,34 @@ Block.prototype.equal = function (otherBlock) {
 
 var Snake = function () {
   this.segments = [
-      new Block(7,5),
+      new Block(50,5),
     ];
 
-    this.direction = "right";
-    this.nextDirection = "right";
+    this.direction = "d";
+    this.nextDirection = "d";
 };
 
 //Food constructor
-var Food = function(){
+var Food2 = function(){
   this.position = new Block(10,10);
 };
 //Draw a circle at food's location
-Food.prototype.draw = function(){
-  this.position.drawCircle("LimeGreen");
+Food2.prototype.draw = function(){
+  this.position.drawCircle("DarkGreen");
 }
 //Move the food to a new random location
-Food.prototype.move = function() {
+Food2.prototype.move = function() {
   var randomRow = Math.floor(Math.random() * (widthInBlocks -2)) +1;
   var randomCol = Math.floor(Math.random() * (heightInBlocks -2)) +1;
   this.position = new Block(randomRow, randomCol);
 }
-var food = new Food();
+var food2 = new Food2();
 
 Snake.prototype.draw = function() {
   for(var i = 0; i < this.segments.length; i++){
-    //goku head
-    if (i === 0){  //head = index 0 then draw goku
-      this.segments[i].drawGoku();
+    //vegeta head
+    if (i === 0){  //head = index 0 then draw vegeta
+      this.segments[i].drawVegeta();
     }
     else {
       this.segments[i].drawSquare("black");
@@ -126,16 +126,16 @@ Snake.prototype.move = function() {
     var head = this.segments[0];
 
     this.direction = this.nextDirection;
-    if(this.direction === "right"){      //GO RIGHT
+    if(this.direction === "d"){      //GO RIGHT
       newHead = new Block(head.col + 1, head.row);
 
-    }else if(this.direction === "left"){ //left
+    }else if(this.direction === "a"){ //left
       newHead = new Block(head.col - 1, head.row);
 
-    }else if(this.direction === "up"){ //up
+    }else if(this.direction === "w"){ //up
       newHead = new Block(head.col, head.row - 1);
 
-    }else if(this.direction === "down"){ //down
+    }else if(this.direction === "s"){ //down
       newHead = new Block(head.col, head.row + 1);
     }
     //if statement checkCollision (using checkCollision function
@@ -147,33 +147,33 @@ Snake.prototype.move = function() {
     this.segments.unshift(newHead);
     if(newHead.equal(food.position)) {
        score++;
-       food.move();
+       food2.move();
        } else {
        this.segments.pop();
      }
 };
 
 var directions = {
-    37: "left",
-    38: "up",
-    39: "right",
-    40: "down",
+    87: "w",
+    65: "a",
+    83: "s",
+    68: "d",
 };
 // The keydown handler for handling direction key presses
 $("body").keydown(function (event) {
-    var newDirection = directions[event.keyCode];
-    if (newDirection !== undefined) {
-         snake.setDirection(newDirection);
+    var newDirection2 = directions2[event.keyCode];
+    if (newDirection2 !== undefined) {
+         snake.setDirection(newDirection2);
     }
 });
 Snake.prototype.setDirection = function (newDirection) {
-    if (this.direction === "up" && newDirection === "down") {
+    if (this.direction === "w" && newDirection === "s") {
         return;
-    } else if (this.direction === "right" && newDirection === "left") {
+    } else if (this.direction === "d" && newDirection === "a") {
     return;
-    } else if (this.direction === "down" && newDirection === "up") {
+  } else if (this.direction === "s" && newDirection === "w") {
     return;
-    } else if (this.direction === "left" && newDirection === "right") {
+  } else if (this.direction === "a" && newDirection === "d") {
     return;
     }
     this.nextDirection = newDirection;
@@ -203,5 +203,5 @@ var intervalId = setInterval(function(){
     drawScore();
     snake.draw();
     snake.move();
-    food.draw();
-  },50);
+    food2.draw();
+  },1000);
