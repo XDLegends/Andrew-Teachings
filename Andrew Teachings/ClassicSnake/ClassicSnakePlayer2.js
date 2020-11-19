@@ -1,6 +1,6 @@
 //Canvas stuff
-var canvas2 = document.getElementById("canvas2");
-var ctx = canvas2.getContext("2d");
+var canvas = document.getElementById("imgCanvas2");
+var ctx = canvas.getContext("2d");
 var width2 = canvas.width
 var height2 = canvas.height
 var blockSize = 10;
@@ -11,18 +11,18 @@ var score2 = 0;
 //border width="1500" height="1000
 var drawBorder = function(){
  ctx.fillStyle = "Blue";
- ctx.fillRect(0, 0, width, blockSize); //x
- ctx.fillRect(0, height - blockSize, width, blockSize);
- ctx.fillRect(0, 0, blockSize, height);  //y
- ctx.fillRect(width - blockSize, 0, blockSize, height);
+ ctx.fillRect(0, 0, width2, blockSize); //x
+ ctx.fillRect(0, height2 - blockSize, width2, blockSize);
+ ctx.fillRect(0, 0, blockSize, height2);  //y
+ ctx.fillRect(width2 - blockSize, 0, blockSize, height2);
 };
 //Making the Score and setting it to 0
 var drawScore2 = function(){
   ctx.font = "20px Courier";
   ctx.fillStyle = "Black";
-  ctx.textAlign = "right";
-  ctx.textBaseline = "bottom";
-  ctx.fillText("Score: " + score, blockSize, blockSize);
+  ctx.textAlign = "left";
+  ctx.textBaseline = "top";
+  ctx.fillText("Score: " + score2, blockSize, blockSize);
 };
 // Making a GameOver Screen
 var gameOver = function () {
@@ -31,7 +31,7 @@ clearInterval(intervalId);
     ctx.fillStyle = "Red";
     ctx.textAlign = "center";
     ctx.textBaseline = "middle";
-    ctx.fillText("Game Over", width / 2, height / 2);
+    ctx.fillText("Game Over", width2 / 2, height2 / 2);
 };
 
   //Update every frame (interval)... in ..Seconds
@@ -145,15 +145,15 @@ Snake.prototype.move = function() {
       return;
     }
     this.segments.unshift(newHead);
-    if(newHead.equal(food.position)) {
-       score++;
+    if(newHead.equal(food2.position)) {
+       score2++;
        food2.move();
        } else {
        this.segments.pop();
      }
 };
 
-var directions = {
+var directions2 = {
     87: "w",
     65: "a",
     83: "s",
@@ -198,10 +198,10 @@ Snake.prototype.checkCollision = function(head){
 
 var snake = new Snake();
 var intervalId = setInterval(function(){
-    ctx.clearRect(0,0, width, height);
+    ctx.clearRect(0,0, width2, height2);
     drawBorder();
-    drawScore();
+    drawScore2();
     snake.draw();
     snake.move();
     food2.draw();
-  },1000);
+  },50);

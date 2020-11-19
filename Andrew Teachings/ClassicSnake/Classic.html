@@ -4,13 +4,13 @@
 
  <body bgcolor="#aaaaff">
    <h1> Snake Game </h1>
-     <canvas id="imgCanvas" width="1000" height="1000">     </canvas>
 
-      <canvas2>   <id="imgCanvas2" width2="1000" height2="1000"> </canvas2>
+   <canvas id="imgCanvas" width="1000" height="1000" style="position: absolute; z-index: 0"></canvas>
+ <canvas id="imgCanvas2" width="1000" height="1000" style="position: fixed; z-index: 1"></canvas>
 
-     <img id="Goku" src="gokuHead.png" alt="Goku" width="500" height="600"> </img>
-     <img id="Vegeta" src="vegetaHead-removebg-preview.png" alt="Vegeta" width="500" height="600"> </img>
-
+     <img id="Goku" style="display: none;" src="gokuHead.png" alt="Goku" width="500" height="600"> </img>
+     <img id="Vegeta" style="display: none;"src="vegetaHead-removebg-preview.png" alt="Vegeta" width="500" height="600"> </img>
+     <style="display: none,"
 
      <script src="ClassicSnake.js"> </script>
      <script src="ClassicSnakePlayer2.js"> </script>

@@ -8,15 +8,14 @@ var widthInBlocks = width / blockSize;
 var heightInBlocks = height / blockSize;
 var score = 0;
 
-//border width="1500" height="1000
-// var drawBorder = function(){
-//  ctx.fillStyle = "Red";
-//  ctx.fillRect(0, 0, width, blockSize); //x
-//  ctx.fillRect(0, height - blockSize, width, blockSize);
-//  ctx.fillRect(0, 0, blockSize, height);  //y
-//  ctx.fillRect(width - blockSize, 0, blockSize, height);
-// };
-//Making the Score and setting it to 0
+var drawBorder = function(){
+ ctx.fillStyle = "Red";
+ ctx.fillRect(0, 0, width, blockSize); //x
+ ctx.fillRect(0, height - blockSize, width, blockSize);
+ ctx.fillRect(0, 0, blockSize, height);  //y
+ ctx.fillRect(width - blockSize, 0, blockSize, height);
+};
+// Making the Score and setting it to 0
 var drawScore = function(){
   ctx.font = "20px Courier";
   ctx.fillStyle = "Black";
