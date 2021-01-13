@@ -38,22 +38,22 @@ clearInterval(intervalId);
 
 //Block constructor - created col and row Object
 var Block = function(col, row){
-  this.col = col;
-  this.row = row;
+  this.col2 = col;
+  this.row2 = row;
 }
 const vegetaSize = 50;
 // drawing a Square
 Block.prototype.drawSquare = function (color) {
-    var x = this.col * blockSize;
-    var y = this.row * blockSize;
+    var x = this.col2 * blockSize;
+    var y = this.row2 * blockSize;
     ctx.fillStyle = color;
     ctx.fillRect(x, y, blockSize, blockSize);
   };
 
 
 Block.prototype.drawVegeta = function () {
-  var x = this.col * blockSize + blockSize/2 - vegetaSize/2;
-  var y = this.row * blockSize + blockSize/2 - vegetaSize/2;
+  var x = this.col2 * blockSize + blockSize/2 - vegetaSize/2;
+  var y = this.row2 * blockSize + blockSize/2 - vegetaSize/2;
   var vegeta = document.getElementById("Vegeta");
   ctx.drawImage(vegeta,x,y,vegetaSize,vegetaSize);
 };
@@ -71,8 +71,8 @@ if (fillCircle) {
 
 // drawing a Circle
 Block.prototype.drawCircle = function (color){
-  var centerX = this.col * blockSize + blockSize / 2;
-  var centerY = this.row * blockSize + blockSize / 2;
+  var centerX = this.col2 * blockSize + blockSize / 2;
+  var centerY = this.row2 * blockSize + blockSize / 2;
   ctx.fillStyle = color;
   circle(centerX, centerY, blockSize / 2, true);
 }
@@ -80,7 +80,7 @@ Block.prototype.drawCircle = function (color){
 
 //Equal Method, when snake = food location
 Block.prototype.equal = function (otherBlock) {
-    return this.col === otherBlock.col && this.row === otherBlock.row;
+    return this.col2 === otherBlock.col2 && this.row2 === otherBlock.row2;
 };
 
 var Snake = function () {
@@ -127,16 +127,16 @@ Snake.prototype.move = function() {
 
     this.direction = this.nextDirection;
     if(this.direction === "d"){      //GO RIGHT
-      newHead = new Block(head.col + 1, head.row);
+      newHead = new Block(head.col2 + 1, head.row2);
 
     }else if(this.direction === "a"){ //left
-      newHead = new Block(head.col - 1, head.row);
+      newHead = new Block(head.col2 - 1, head.row2);
 
     }else if(this.direction === "w"){ //up
-      newHead = new Block(head.col, head.row - 1);
+      newHead = new Block(head.col2, head.row2 - 1);
 
     }else if(this.direction === "s"){ //down
-      newHead = new Block(head.col, head.row + 1);
+      newHead = new Block(head.col2, head.row2 + 1);
     }
     //if statement checkCollision (using checkCollision function
     if(this.checkCollision(newHead)){
@@ -166,17 +166,30 @@ $("body").keydown(function (event) {
          snake.setDirection(newDirection2);
     }
 });
-Snake.prototype.setDirection = function (newDirection) {
+var directions2 = {
+    87: "w",
+    65: "a",
+    83: "s",
+    68: "d",
+};
+// The keydown handler for handling direction key presses
+$("body").keydown(function (event) {
+    var newDirection2 = directions2[event.keyCode];
+    if (newDirection2 !== undefined) {
+         snake.setDirection(newDirection2);
+    }
+});
+Snake.prototype.setDirection = function (newDirection2) {
     if (this.direction === "w" && newDirection === "s") {
         return;
-    } else if (this.direction === "d" && newDirection === "a") {
+    } else if (this.direction === "d" && newDirection2 === "a") {
     return;
-  } else if (this.direction === "s" && newDirection === "w") {
+  } else if (this.direction === "s" && newDirection2 === "w") {
     return;
-  } else if (this.direction === "a" && newDirection === "d") {
+  } else if (this.direction === "a" && newDirection2 === "d") {
     return;
     }
-    this.nextDirection = newDirection;
+    this.nextDirection = newDirection2;
 };
 Snake.prototype.checkCollision = function(head){
   var leftCollision = (head.col === 0);
