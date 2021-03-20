@@ -24,6 +24,7 @@ var tasker = {
 //c) Taskvalue
       var taskValue = document.createTextNode(this.taskInput.value);
       taskListItem.appendChild(taskValue);
+      
 // d) button
       var taskButton = document.createElement('button');
       taskListItem.appendChild(taskButton);
@@ -33,22 +34,7 @@ var tasker = {
       taskButton.appendChild(taskTrash);
       taskButton.onclick = this.deleteButton.bind(this, taskListItem);
 
-      var subTaskList = document.createElement('ul');
-      taskListItem.appendChild(subTaskList);
 
-      var subTaskButton = document.createElement('button');
-      subTaskList.appendChild(subTaskButton);
-
-      var subTaskButtonIcon = document.createElement('i');
-      subTaskButtonIcon.setAttribute("class", "fa fa-fw fa-plus");
-      subTaskButton.appendChild(subTaskButtonIcon);
-
-      var subTaskInput = document.createElement('input');
-      subTaskInput.setAttribute("type", "text");
-      subTaskInput.setAttribute("placeholder", "Enter a Task");
-      subTaskList.appendChild(subTaskInput);
-
-      subTaskButton.onclick = this.addSubTask.bind(this, subTaskList, subTaskInput);
 
       // TODO: add a whatever button to the task list item
     },
@@ -96,12 +82,4 @@ var tasker = {
     deleteButton:function(taskListItem){
       this.taskList.removeChild(taskListItem);
     },
-
-    addSubTask:function(subTaskList, subTaskInput){
-      const subTaskName = subTaskInput.value;
-      const subTaskItem = document.createElement('li');
-      const subTaskTextNode = document.createTextNode(subTaskName);
-      subTaskItem.appendChild(subTaskTextNode);
-      subTaskList.appendChild(subTaskItem);
-    }
 }

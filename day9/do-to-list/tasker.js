@@ -29,11 +29,12 @@ var tasker = {
       taskListItem.appendChild(taskButton);
 //e) taskTrash      ONLY a icon
       var taskTrash = document.createElement('i');
-      taskTrash.setAttribute("class", "fas fa-trash");
+      taskTrash.setAttribute("class", "fa fa-fw fa-trash");
       taskButton.appendChild(taskTrash);
       taskButton.onclick = this.deleteButton.bind(this, taskListItem);
 
-
+      var categoryTaskList = document.createElement('ul');
+      taskListItem.appendChild(categoryTaskList);
 
       // TODO: add a whatever button to the task list item
     },
